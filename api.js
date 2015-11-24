@@ -35,7 +35,6 @@ var red = redis.createClient(redisOptions);
 // run
 //
 var api = function api(server) {
-    console.log('api init');
     server.get('/users/:name', respond);
 };
 
