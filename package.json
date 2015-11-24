@@ -4,9 +4,11 @@
   "description": "track your packages for the holiday",
   "main": "index.js",
   "scripts": {
-    "start": "npm build && pm2 app",
+    "start": "npm build && pm2 start app.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify client/index.js > dist/shiptrack.min.js"
+    "build:css": "stylus --include-css styles/main.styl --out dist/css/main.css",
+    "build:js": "browserify client/index.js > dist/js/main.js",
+    "build": "npm run build:css && npm run build:js"
   },
   "repository": {
     "type": "git",
@@ -19,9 +21,12 @@
   },
   "homepage": "https://github.com/insanity54/shiptrack",
   "dependencies": {
+    "backbone": "^1.2.3",
+    "bootstrap": "^3.3.5",
     "chai": "^3.4.1",
     "express": "^4.13.3",
     "facebook-node": "0.0.3",
+    "jquery": "^2.1.4",
     "nconf": "^0.8.2",
     "pm2": "^0.15.10",
     "redis": "^2.3.1",
@@ -29,6 +34,7 @@
     "shipping-ups": "^0.5.1"
   },
   "devDependencies": {
-    "browserify": "^12.0.1"
+    "browserify": "^12.0.1",
+    "stylus": "^0.52.4"
   }
 }

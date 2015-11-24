@@ -1,0 +1,47 @@
+* {
+  background: rgba(0,0,0,0.05);
+}
+.app {
+  *zoom: 1;
+  width: auto;
+  max-width: 968px;
+  float: none;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+.app:before,
+.app:after {
+  content: '';
+  display: table;
+}
+.app:after {
+  clear: both;
+}
+#footer {
+  margin-top: 30px;
+}
+#footer #author {
+  *zoom: 1;
+  position: absolute;
+  transform-style: preserve-3d;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#footer #author:before,
+#footer #author:after {
+  content: '';
+  display: table;
+}
+#footer #author:after {
+  clear: both;
+}
+#cools {
+  max-height: 100%;
+}
+#cools img {
+  height: 100px;
+}
