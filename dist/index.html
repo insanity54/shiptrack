@@ -1,50 +1,60 @@
 <!doctype html>
 <html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <!-- Place favicon.ico in the root directory -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 8]>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+  <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
-        <div id="app">
-            <p>Enter your package tracking number below, and we'll send you updates on it's progress.</p>
-            <form>
-              tracking number:<br>
-              <input type="text" name="tracking">
-              <br>
-            </form>
-        </div>
-      
-        <hr>
-        <div id="cools">
-          <p>here are my derps</p>
-          <img src="https://ipfs.pics/ipfs/Qmagh2U8S1vVdtL9Xaj4AvJfosburQssrqBH3XaaKkxNdZ" />
-          <img src="https://ipfs.pics/ipfs/QmP4oJqVsYCso6Ayi3aVpeiFoWXgYTRrH3MjgMBQYPf8ef" />
-          <img src="https://ipfs.pics/ipfs/QmaMGESXc7pboUCjT1VtiJauCaFwTkYSURn6aYei6xV4RC" />
-          <img src="https://ipfs.pics/ipfs/QmVzwKjCd2zi9FgZsRTSsxDDJpwjJuM4Z1ypfFaNdiCLGd" />
-          <img src="https://ipfs.pics/ipfs/QmPyPJNoDL6xpaRHP9GJcwpVMmFojJHNUf7GrnvuYQTXHr" />
-          <img src="https://ipfs.pics/ipfs/QmPwWaDDevFvfi8YL9XJuReFqTrtn224zgRzMuJaG3XiYA" />
-        </div>
-          
-        <div id="footer">
-          <div id="author">by Chris Grimmett | grimtech.net</div>
-        </div>
-        
+  <!-- Add your site or application content here -->
+  <div id="app">
+    <p>Enter your package tracking number below, and we'll send you updates on it's progress.</p>
+    <div id="tracking">
+      <form>
+        tracking number:
+        <br>
+        <input id="trackingNumber" class="inset" type="text" name="trackingNumber">
+        <input type="button" class="submit" value="Submit">
+        <br>
+      </form>
+    </div>
 
-        <script src="js/main.js"></script>
-    </body>
+    <div id="trackingDisplay"></div>
+  </div>
+
+  <hr>
+  <div id="cools">
+    <p>here are my derps</p>
+    <img src="https://ipfs.pics/ipfs/Qmagh2U8S1vVdtL9Xaj4AvJfosburQssrqBH3XaaKkxNdZ" />
+    <img src="https://ipfs.pics/ipfs/QmP4oJqVsYCso6Ayi3aVpeiFoWXgYTRrH3MjgMBQYPf8ef" />
+    <img src="https://ipfs.pics/ipfs/QmaMGESXc7pboUCjT1VtiJauCaFwTkYSURn6aYei6xV4RC" />
+    <img src="https://ipfs.pics/ipfs/QmVzwKjCd2zi9FgZsRTSsxDDJpwjJuM4Z1ypfFaNdiCLGd" />
+    <img src="https://ipfs.pics/ipfs/QmPyPJNoDL6xpaRHP9GJcwpVMmFojJHNUf7GrnvuYQTXHr" />
+    <img src="https://ipfs.pics/ipfs/QmPwWaDDevFvfi8YL9XJuReFqTrtn224zgRzMuJaG3XiYA" />
+    <img src="https://ipfs.pics/ipfs/QmeUCLwDwcCEbbM6SCJAZqU68wJ4gPqyyK2R8MCrDJCKWz" />
+  </div>
+
+  <div id="footer">
+    <div id="author">by Chris Grimmett | grimtech.net</div>
+  </div>
+
+
+  <script src="js/main.js"></script>
+</body>
+
 </html>

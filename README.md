@@ -69,3 +69,9 @@ pm2 will show the process as 'static-api-server'. check it's log using `pm2 logs
 
 
 
+### Other notes
+
+development stylus auto rendering
+
+    stylus -u jeet -w client/styles/main.styl --out dist/css/main.css
+
