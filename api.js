@@ -5,7 +5,7 @@ var path = require('path');
 var nconf = require('nconf');
 var assert = require('chai').assert;
 var redis = require('redis');
-
+var 
 
 
 //
@@ -17,6 +17,10 @@ function respond(req, res, next) {
   next();
 }
 
+function create(req, res, next) {
+  console.log('creating new tracking ' + req.body);
+  next();
+}
 
 
 //
