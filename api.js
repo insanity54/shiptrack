@@ -5,7 +5,8 @@ var path = require('path');
 var nconf = require('nconf');
 var assert = require('chai').assert;
 var redis = require('redis');
-var 
+var ups = require('shipping-ups');
+
 
 
 //
@@ -13,14 +14,24 @@ var
 //
 function respond(req, res, next) {
   console.log('api is responding');
+  if (req.shiptrack.err) return res.send(403);
   res.send('hello ' + req.params.name);
+}
+
+function createTrackingDetail(req, res, next) {
+  console.log('creating new tracking ' + req);
   next();
 }
 
-function create(req, res, next) {
-  console.log('creating new tracking ' + req.body);
+function duck(req, res, next) {
+  if (typeof(shiptrack) === 'unefined') {
+    req.shiptrack = {
+      err: false
+    };
+  }
   next();
 }
+
 
 
 //
@@ -41,10 +52,10 @@ var red = redis.createClient(redisOptions);
 // run
 //
 var api = function api(server) {
-  server.get('/users/:name', respond);
+  server.get('/users/:name', duck, respond);
   
   // CREATE TRACKING DETAIL
-  server.post('/trackings', respond);
+  server.post('/trackings', duck, createTrackingDetail, respond);
 };
 
 
