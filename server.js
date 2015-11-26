@@ -11,6 +11,7 @@ var api = require(path.join(__dirname, 'api'));
 // init
 //var app = express();
 var assetDir = path.join(__dirname, 'dist');
+server.use(restify.bodyParser());
 
 // run
 api(server);

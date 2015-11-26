@@ -1,7 +1,9 @@
-window.jQuery = require('jquery');
+var $ = require('jquery');
+//window.jQuery = require('jquery');
 var Backbone = require('backbone');
 var _ = require('underscore');
-require('bootstrap');
+//require('bootstrap');
+Backbone.$ = $;
 
 
 
@@ -69,25 +71,36 @@ var trackings = new Trackings();
 
 
 //
-// VIEW tracking number input box
+// VIEW tracking number input box. also top level view.
 //
 //var ENTER_KEY = 13;
 var InputView = Backbone.View.extend({
 
-  collection: trackings,
   el: '#tracking',
 
   events: {
     "keydown": "keyAction",
     "submit form": "submitAction"
   },
-
-  //render: function() { ... },
+  
+  initialize: function() {
+    console.log('inputview init');
+    this.input = $("#trackingNumber");
+    
+    this.listenTo(this.collection, 'add', this.addOne);
+    // @todo maybe do listenTo(Trackings, all, this.render)
+  },
+  
+  addOne: function(tracking) {
+    console.log('adding one');
+    var view = new TrackingDisplay({model: tracking});
+    this.$("trackingsDisplay").append(view.render().el);
+  },
 
   submitAction: function(e) {
     console.log('Inputview event: submit. Adding model to collection');
     //console.log(this.collection)
-    this.collection.create({trackingNumber: this.$("#trackingNumber").val()});
+    this.collection.create({trackingNumber: this.input.val()});
     //var t = new Tracking({  });
     //this.collection.add(t);
     //this.sync("create", t, )
@@ -103,7 +116,7 @@ var InputView = Backbone.View.extend({
 //    }
   }
 });
-var inputView = new InputView();
+var inputView = new InputView({collection: trackings});
 
 
 
@@ -115,10 +128,11 @@ var inputView = new InputView();
 
 
 //
-// VIEW Large display of tracking number
+// VIEW display of a tracking number
 //
 var TrackingDisplay = Backbone.View.extend({
   el: '#trackingDisplay',
+  
   events: {
     "change #tracking":     "render",
     "click .button.edit":   "openEditDialog",
@@ -126,20 +140,24 @@ var TrackingDisplay = Backbone.View.extend({
   },
   
   initialize: function() {
-    //this.listenTo(this.model, "change", this.render);
-    this.listenTo(tracking, 'change', this.render);
+    this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.model, 'destroy', this.remove);
   },
   
-  template: _.template("<p><b>test<%- trackingNumber %></b></p>"),
+  template: _.template($('#tracking-template')),
 
   render: function() {
-    console.log('rendering tracking display');
+    console.log('rendering tracking item');
     this.$el.html(this.template(this.model.attributes));
     return this;
   }
 });
 
-var trackingDisplay = new TrackingDisplay();
+
+
+
+
+//var trackingDisplay = new TrackingDisplay({collection: trackings});
 
 
 //

@@ -29,12 +29,14 @@
         tracking number:
         <br>
         <input id="trackingNumber" class="inset" type="text" name="trackingNumber">
-        <input type="button" class="submit" value="Submit">
+        <input type="button" class="submit" value="Submit" method="post">
         <br>
       </form>
     </div>
 
     <div id="trackingDisplay"></div>
+
+    <div id="trackingsDisplay"></div>
   </div>
 
   <hr>
@@ -55,6 +57,17 @@
 
 
   <script src="js/main.js"></script>
+  <script type="text/template" id="tracking-template">
+    <div class="view">
+      <p>tracking template</p>
+      <input class="toggle" type="checkbox" <%=d one ? 'checked="checked"' : '' %> />
+      <label>
+        <%- title %>
+      </label>
+      <a class="destroy"></a>
+    </div>
+    <input class="edit" type="text" value="<%- title %>" />
+  </script>
 </body>
 
 </html>

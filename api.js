@@ -4,18 +4,19 @@
 var path = require('path');
 var nconf = require('nconf');
 var assert = require('chai').assert;
-var redis = require('redis');
 var ups = require('shipping-ups');
-
+var db = require(path.join(__dirname, 'db'));
 
 
 //
 // get funky
 //
+
+
 function respond(req, res, next) {
   console.log('api is responding');
-  if (req.shiptrack.err) return res.send(403);
-  res.send('hello ' + req.params.name);
+  //if (!typeof(req.shiptrack.err == 'undefined')) return res.send(403);
+  res.send(200, req.params);
 }
 
 function createTrackingDetail(req, res, next) {
@@ -24,7 +25,8 @@ function createTrackingDetail(req, res, next) {
 }
 
 function duck(req, res, next) {
-  if (typeof(shiptrack) === 'unefined') {
+  console.log('ducking');
+  if (typeof (shiptrack) === 'unefined') {
     req.shiptrack = {
       err: false
     };
@@ -37,14 +39,6 @@ function duck(req, res, next) {
 //
 // init
 //
-nconf.env(['REDIS_ADDRESS']);
-var redisAddress = nconf.get('REDIS_ADDRESS');
-assert.isDefined(redisAddress, 'REDIS_ADDRESS environment varirable is not defined');
-
-var redisOptions = {
-  host: redisAddress
-};
-var red = redis.createClient(redisOptions);
 
 
 
@@ -53,9 +47,9 @@ var red = redis.createClient(redisOptions);
 //
 var api = function api(server) {
   server.get('/users/:name', duck, respond);
-  
+
   // CREATE TRACKING DETAIL
-  server.post('/trackings', duck, createTrackingDetail, respond);
+  server.post('/trackings', db.create, respond);
 };
 
 
