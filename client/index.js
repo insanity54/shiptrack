@@ -1,156 +1,165 @@
-var $ = require('jquery');
-//window.jQuery = require('jquery');
+window.jQuery = require('jquery');
+var $ = window.jQuery;
 var Backbone = require('backbone');
 var _ = require('underscore');
-//require('bootstrap');
 Backbone.$ = $;
 
 
 
+$(document).ready(function() {
 
-//
-// MODEL user model
-//
-var User = Backbone.Model.extend({
+
+
+  //
+  // MODEL user model
+  //
+  var User = Backbone.Model.extend({
     // user methods
-//    register: function(a, b, c, d) {
-//        console.log('user registering with a='+a, ' b='+b, 'c='+c, 'd='+d);
-//    }
-});
+    //    register: function(a, b, c, d) {
+    //        console.log('user registering with a='+a, ' b='+b, 'c='+c, 'd='+d);
+    //    }
+  });
 
-var u = new User();
-//u.register();
-
-
-
-
-//
-// MODEL tracking detail model
-//
-var Tracking = Backbone.Model.extend({
-  trackingNumber: '',
-  carrier: '',
-  notificationMethod: '',
-  userId: ''
-});
-var tracking = new Tracking();
+  var u = new User();
+  //u.register();
 
 
 
 
-
-//
-// COLLECTION users
-//
-var Users = Backbone.Collection.extend({
-  url: '/users',
-  model: User
-});
-var users = new Users();
-
-
-
-
-//
-// COLLECTION Trackings
-//
-var Trackings = Backbone.Collection.extend({
-  url: '/trackings',
-  model: Tracking
-});
-var trackings = new Trackings();
-//trackings.on('add', function(e) {
-//  console.log('trackings add');
-//  this.sync("create", );
-//});
+  //
+  // MODEL tracking detail model
+  //
+  var Tracking = Backbone.Model.extend({
+    trackingNumber: '',
+    carrier: '',
+    notificationMethod: '',
+    userId: ''
+  });
+  var tracking = new Tracking();
 
 
 
 
 
+  //
+  // COLLECTION users
+  //
+  var Users = Backbone.Collection.extend({
+    url: '/users',
+    model: User
+  });
+  var users = new Users();
 
 
-//
-// VIEW tracking number input box. also top level view.
-//
-//var ENTER_KEY = 13;
-var InputView = Backbone.View.extend({
 
-  el: '#tracking',
 
-  events: {
-    "keydown": "keyAction",
-    "submit form": "submitAction"
-  },
-  
-  initialize: function() {
-    console.log('inputview init');
-    this.input = $("#trackingNumber");
-    
-    this.listenTo(this.collection, 'add', this.addOne);
-    // @todo maybe do listenTo(Trackings, all, this.render)
-  },
-  
-  addOne: function(tracking) {
-    console.log('adding one');
-    var view = new TrackingDisplay({model: tracking});
-    this.$("trackingsDisplay").append(view.render().el);
-  },
-
-  submitAction: function(e) {
-    console.log('Inputview event: submit. Adding model to collection');
-    //console.log(this.collection)
-    this.collection.create({trackingNumber: this.input.val()});
-    //var t = new Tracking({  });
-    //this.collection.add(t);
-    //this.sync("create", t, )
-    return false; // prevent default form submission
-  },
-  
-  keyAction: function(e) {
-    //console.log('inputview event: keydown');
-//    if (e.which === ENTER_KEY) {
-//      console.log('submitting');
-//      this.collection.add({text: this.$el.val()});
-//      return false;
-//    }
-  }
-});
-var inputView = new InputView({collection: trackings});
+  //
+  // COLLECTION Trackings
+  //
+  var Trackings = Backbone.Collection.extend({
+    url: '/trackings',
+    model: Tracking
+  });
+  var trackings = new Trackings();
+  //trackings.on('add', function(e) {
+  //  console.log('trackings add');
+  //  this.sync("create", );
+  //});
 
 
 
 
 
+  //
+  // VIEW display of a tracking number
+  //
+  var TrackingDisplay = Backbone.View.extend({
+    el: '#trackingDisplay',
+
+    events: {
+      "change #tracking": "render",
+      "click .button.edit": "openEditDialog",
+      "click .button.delete": "destroy"
+    },
+
+    initialize: function () {
+      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.remove);
+    },
+
+    template: _.template($('#tracking-template').html()),
+
+    render: function () {
+      console.log('rendering tracking item');
+      this.$el.html(this.template(this.model.attributes));
+      return this;
+    }
+  });
+
+
+  //
+  // VIEW tracking number input box. also top level view.
+  //
+  //var ENTER_KEY = 13;
+  var InputView = Backbone.View.extend({
+
+    el: '#tracking',
+
+    events: {
+      "keydown": "keyAction",
+      "submit form": "submitAction"
+    },
+
+    initialize: function () {
+      console.log('inputview init');
+      this.input = $("#trackingNumber");
+
+      this.listenTo(this.collection, 'add', this.addOne);
+      // @todo maybe do listenTo(Trackings, all, this.render)
+    },
+
+    addOne: function (tracking) {
+      console.log('adding one');
+      var view = new TrackingDisplay({
+        model: tracking
+      });
+      this.$("trackingsDisplay").append(view.render().el);
+    },
+
+    submitAction: function (e) {
+      console.log('Inputview event: submit. Adding model to collection');
+      //console.log(this.collection)
+      this.collection.create({
+        trackingNumber: this.input.val()
+      });
+      //var t = new Tracking({  });
+      //this.collection.add(t);
+      //this.sync("create", t, )
+      return false; // prevent default form submission
+    },
+
+    keyAction: function (e) {
+      //console.log('inputview event: keydown');
+      //    if (e.which === ENTER_KEY) {
+      //      console.log('submitting');
+      //      this.collection.add({text: this.$el.val()});
+      //      return false;
+      //    }
+    }
+  });
+  var inputView = new InputView({
+    collection: trackings
+  });
 
 
 
 
 
-//
-// VIEW display of a tracking number
-//
-var TrackingDisplay = Backbone.View.extend({
-  el: '#trackingDisplay',
-  
-  events: {
-    "change #tracking":     "render",
-    "click .button.edit":   "openEditDialog",
-    "click .button.delete": "destroy"
-  },
-  
-  initialize: function() {
-    this.listenTo(this.model, 'change', this.render);
-    this.listenTo(this.model, 'destroy', this.remove);
-  },
-  
-  template: _.template($('#tracking-template')),
 
-  render: function() {
-    console.log('rendering tracking item');
-    this.$el.html(this.template(this.model.attributes));
-    return this;
-  }
+
+
+
+
 });
 
 
