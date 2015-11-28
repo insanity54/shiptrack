@@ -9,10 +9,6 @@ Backbone.$ = $;
 
 $(document).ready(function() {
 
-  console.log('(jq) dom is ready');
-
-
-  //console.log($('#tracking-template').html());
 
 
   //
@@ -79,7 +75,8 @@ $(document).ready(function() {
   // VIEW display of a tracking number
   //
   var TrackingDisplay = Backbone.View.extend({
-    el: '#trackingDisplay',
+    //el: '#trackingDisplay',
+    tagName: 'li',
 
     events: {
       "change #tracking": "render",
@@ -87,16 +84,22 @@ $(document).ready(function() {
       "click .button.delete": "destroy"
     },
 
-    initialize: function () {
+    initialize: function() {
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
+      console.log('tracking display init');
+      console.log(this.$el);
+      //this.$el.append('<li>helly fren</li>');
     },
 
-    template: _.template($('#tracking-template').html()),
+    //template: _.template($('#tracking-template').html()),
 
-    render: function () {
+    render: function() {
       console.log('rendering tracking item');
-      this.$el.html(this.template(this.model.attributes));
+      console.log(this.model.attributes);
+      //this.$el.html(this.template(this.model.attributes));
+      this.$el.html('test test test test test ' + this.model.get('trackingNumber'));
+      //console.log(this.$el.html());
       return this;
     }
   });
@@ -126,9 +129,10 @@ $(document).ready(function() {
     addOne: function (tracking) {
       console.log('adding one');
       var view = new TrackingDisplay({
-        model: tracking
+        model: trackings.last()
       });
-      this.$("trackingsDisplay").append(view.render().el);
+      console.log(view.$el.html('tiesti'));
+      $("#trackingDisplay").append(view.render().el);
     },
 
     submitAction: function (e) {
