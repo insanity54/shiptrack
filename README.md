@@ -75,6 +75,3 @@ development stylus auto rendering
 
     stylus -u jeet -w client/styles/main.styl --out dist/css/main.css
 
-
-@todo - make input view it's own thing (not the root app view)
-@todo - make a root app view, and add trackingDisplay event detection in it

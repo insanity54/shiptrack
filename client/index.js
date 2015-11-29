@@ -6,7 +6,7 @@ Backbone.$ = $;
 
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
 
 
@@ -80,24 +80,27 @@ $(document).ready(function() {
     events: {
       "change #tracking": "render",
       "click .button.edit": "openEditDialog",
-      "click .button.delete": "destroy"
+      "click a.close": "deleteTracking"
     },
 
-    initialize: function() {
+    initialize: function () {
       this.listenTo(this.model, 'change', this.render);
       this.listenTo(this.model, 'destroy', this.remove);
-      console.log('tracking display init');
-      console.log(this.$el);
-      //this.$el.append('<li>helly fren</li>');
     },
 
-    //template: _.template($('#tracking-template').html()),
+    template: _.template($('#tracking-template').html()),
 
-    render: function() {
+    deleteTracking: function() {
+      console.log('deleting tracking no');
+      this.model.destroy();
+      console.log(trackings);
+    },
+    
+    render: function () {
       console.log('rendering tracking item');
       console.log(this.model.attributes);
       //this.$el.html(this.template(this.model.attributes));
-      this.$el.html('test test test test test ' + this.model.get('trackingNumber'));
+      this.$el.html(this.template(this.model.attributes));
       //console.log(this.$el.html());
       return this;
     }
@@ -105,7 +108,30 @@ $(document).ready(function() {
 
 
   //
-  // VIEW tracking number input box. also top level view.
+  // VIEW appView - top level view
+  //
+  var AppView = Backbone.View.extend({
+    el: '#app',
+    
+    initialize: function () {
+      console.log('appview init');
+      this.listenTo(trackings, 'add', this.addTracking);
+    },
+    
+    
+    addTracking: function (tracking) {
+      console.log('adding one');
+      var view = new TrackingDisplay({
+        model: trackings.last()
+      });
+      console.log(view.$el.html('tiesti'));
+      this.$("#trackingDisplay").append(view.render().el);
+    }
+  });
+
+
+  //
+  // VIEW tracking number input box.
   //
   //var ENTER_KEY = 13;
   var InputView = Backbone.View.extend({
@@ -121,18 +147,18 @@ $(document).ready(function() {
       console.log('inputview init');
       this.input = $("#trackingNumber");
 
-      this.listenTo(this.collection, 'add', this.addOne);
+      //this.listenTo(this.collection, 'add', this.addOne);
       // @todo maybe do listenTo(Trackings, all, this.render)
     },
 
-    addOne: function (tracking) {
-      console.log('adding one');
-      var view = new TrackingDisplay({
-        model: trackings.last()
-      });
-      console.log(view.$el.html('tiesti'));
-      $("#trackingDisplay").append(view.render().el);
-    },
+    //    addOne: function (tracking) {
+    //      console.log('adding one');
+    //      var view = new TrackingDisplay({
+    //        model: trackings.last()
+    //      });
+    //      console.log(view.$el.html('tiesti'));
+    //      $("#trackingDisplay").append(view.render().el);
+    //    },
 
     submitAction: function (e) {
       console.log('Inputview event: submit. Adding model to collection');
@@ -155,15 +181,13 @@ $(document).ready(function() {
       //    }
     }
   });
+
+
   var inputView = new InputView({
     collection: trackings
   });
 
-
-
-
-
-
+  var appView = new AppView(); // kick off app
 
 
 
@@ -171,33 +195,3 @@ $(document).ready(function() {
 });
 
 
-
-
-
-//var trackingDisplay = new TrackingDisplay({collection: trackings});
-
-
-//
-//
-////
-//// 
-////
-//var Sidebar = Backbone.Model.extend({
-//  promptColor: function() {
-//    var cssColor = prompt("Please enter a CSS color:");
-//    this.set({color: cssColor});
-//  }
-//});
-//
-//window.sidebar = new Sidebar;
-//
-//sidebar.on('change:color', function(model, color) {
-//  $('#sidebar').css({background: color});
-//});
-//
-//sidebar.set({color: 'white'});
-//
-//sidebar.promptColor();
-
-
-//console.log('im alive');

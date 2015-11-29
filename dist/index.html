@@ -29,7 +29,7 @@
         tracking number:
         <br>
         <input id="trackingNumber" class="inset" type="text" name="trackingNumber">
-        <input type="button" class="submit" value="Submit" method="post">
+        <input type="button" class="submit" value="Add" method="post">
         <br>
       </form>
     </div>
@@ -37,7 +37,13 @@
     <ul id="trackingDisplay">
       <li>test3</li>
     </ul>
-  </div>
+    
+    <hr>
+    
+    <div id="trackingDetail">
+    </div>
+  </div> <!-- /#app -->
+  
 
   <hr>
   <div id="cools">
@@ -58,7 +64,20 @@
 
   <script src="js/main.js"></script>
   <script type="text/template" id="tracking-template">
-    <p><%- trackingNumber %></p>
+    <a href="#" class="text"><%- trackingNumber %></a> <a href="#" class="close">x</a>
+  </script>
+  
+  <script type="text/template" id="tracking-detail-template">
+    <div id="detail">
+      <div id="detail-title">
+        <span class="title"><%- trackingNumber %></span>
+      </div>
+      <div id="detail-text">
+        <span class="label">Tracking Number</span> <span class="text"><%- trackingNumber %>
+        <span class="label">Carrier</span> <span class="text"><%- carrier %>
+        <span class="label">Notification Metod</span> <span class="text"><%- notificationMethod %>
+      </div>
+    </div>
   </script>
   
   

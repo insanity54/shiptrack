@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm build && pm2 start app.json",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "stylus --include-css styles/main.styl --out dist/css/main.css",
+    "build:css": "stylus -u jeet --include-css client/styles/main.styl --out dist/css/main.css",
     "build:js": "browserify client/index.js > dist/js/main.js",
     "build": "npm run build:css && npm run build:js"
   },
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "browserify": "^12.0.1",
+    "jeet": "^6.1.2",
     "stylus": "^0.52.4"
   }
 }
