@@ -71,7 +71,7 @@ $(document).ready(function () {
 
 
   //
-  // VIEW display of a tracking number
+  // VIEW display of a single tracking item
   //
   var TrackingDisplay = Backbone.View.extend({
     //el: '#trackingDisplay',
@@ -80,7 +80,8 @@ $(document).ready(function () {
     events: {
       "change #tracking": "render",
       "click .button.edit": "openEditDialog",
-      "click a.close": "deleteTracking"
+      "click a.close": "deleteTracking",
+      "click a.trackingItem": "showDetail"
     },
 
     initialize: function () {
@@ -96,6 +97,13 @@ $(document).ready(function () {
       console.log(trackings);
     },
     
+    // show complete detail of this tracking item
+    showDetail: function() {
+      //console.log('tdisplay event))');
+      //console.log(appView);
+      //appView.trigger('showDetail', this.model);
+    },
+    
     render: function () {
       console.log('rendering tracking item');
       console.log(this.model.attributes);
@@ -106,6 +114,8 @@ $(document).ready(function () {
     }
   });
 
+  
+  
 
   //
   // VIEW appView - top level view
@@ -113,9 +123,15 @@ $(document).ready(function () {
   var AppView = Backbone.View.extend({
     el: '#app',
     
+    events: {
+      'itemClick': "showDetail"
+    },
+    
     initialize: function () {
       console.log('appview init');
       this.listenTo(trackings, 'add', this.addTracking);
+      //this.listenTo(trackings, 'click')
+      trackings.fetch(); // @proc READ
     },
     
     
@@ -126,9 +142,38 @@ $(document).ready(function () {
       });
       console.log(view.$el.html('tiesti'));
       this.$("#trackingDisplay").append(view.render().el);
+      // listen to the item in case it is clicked
+      //this.listenTo(view, 'click', this.showDetail);
+    },
+    
+    
+    showDetail: function(tracking) {
+      console.log('showing tracking detail (appView)');
+      console.log(tracking);
+      this.detail = new TrackingDetail({model: tracking});
     }
   });
 
+  
+  
+  
+  //
+  // VIEW tracking detail
+  //
+  var TrackingDetail = Backbone.View.extend({
+    el: '#trackingDisplay',
+    
+    template: _.template($('#tracking-detail-template').html()),
+    
+    render: function () {
+      console.log('rendering tracking detail');
+      this.$el.html(this.template(this.model.attributes));
+      return this;
+    }
+    
+  });
+  
+  
 
   //
   // VIEW tracking number input box.
