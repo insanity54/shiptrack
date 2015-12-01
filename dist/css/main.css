@@ -64,8 +64,9 @@ input.inset[type="text"].focus {
   vertical-align: super;
   font-size: 20px;
 }
-.text,
-.title,
+.text {
+  margin-left: 20px;
+}
 .label {
   border: 1px solid #000;
   display: inline-block;

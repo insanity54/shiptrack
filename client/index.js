@@ -99,9 +99,7 @@ $(document).ready(function () {
     
     // show complete detail of this tracking item
     showDetail: function() {
-      //console.log('tdisplay event))');
-      //console.log(appView);
-      //appView.trigger('showDetail', this.model);
+      appView.trigger("itemClick", this.model);
     },
     
     render: function () {
@@ -122,10 +120,6 @@ $(document).ready(function () {
   //
   var AppView = Backbone.View.extend({
     el: '#app',
-    
-    events: {
-      'itemClick': "showDetail"
-    },
     
     initialize: function () {
       console.log('appview init');
@@ -151,6 +145,7 @@ $(document).ready(function () {
       console.log('showing tracking detail (appView)');
       console.log(tracking);
       this.detail = new TrackingDetail({model: tracking});
+      this.detail.render();
     }
   });
 
@@ -161,7 +156,7 @@ $(document).ready(function () {
   // VIEW tracking detail
   //
   var TrackingDetail = Backbone.View.extend({
-    el: '#trackingDisplay',
+    el: '#trackingDetail',
     
     template: _.template($('#tracking-detail-template').html()),
     
@@ -233,7 +228,12 @@ $(document).ready(function () {
   });
 
   var appView = new AppView(); // kick off app
-
+  // yummy hack(?) to get event from itemview to appview
+  _.extend(appView, Backbone.Events); 
+  appView.on('itemClick', function(tracking) {
+    console.log("CKICK!L");
+    this.showDetail(tracking);
+  });
 
 
 
