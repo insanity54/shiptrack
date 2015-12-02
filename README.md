@@ -75,5 +75,4 @@ development stylus auto rendering
 
     stylus -u jeet -w client/styles/main.styl --out dist/css/main.css
 
-
-@todo make clicking tracking item pop up a tracking detail
+@todo - make the server output actual json (not stringified json) for READ
