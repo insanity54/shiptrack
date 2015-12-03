@@ -71,13 +71,29 @@ var read = function read(req, res, next) {
       red.MGET(m, function(err, all) {
         if (err) throw err;
         
+        console.log('getAll');
+        console.log(all);
+
+        // go through each result and de-stringify
+        all = _.map(all, function(el) {
+          
+          var j;
+          try {
+            j = JSON.parse(el);
+          }
+          catch (e) {
+            console.error('problem parsing ' + el + ' err- ' + e);
+            return null;
+          }
+          return j;
+        });
+            
         //all = JSON.stringify(all);
-        //console.log('got all ' + all);
-        console.log('getAll finish');
+        console.log('converted all ' + all);
         console.log(all);
         
         return cb(null, all);
-      })
+      });
       
       
     });
