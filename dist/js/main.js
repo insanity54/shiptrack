@@ -134,7 +134,7 @@ $(document).ready(function () {
     addTracking: function (tracking) {
       //console.log('adding one');
       var view = new TrackingDisplay({
-        model: trackings.last()
+        model: tracking
       });
       //console.log(view.$el.html('tiesti'));
       this.$("#trackingDisplay").append(view.render().el);
