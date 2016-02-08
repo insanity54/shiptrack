@@ -73,9 +73,36 @@
         <span class="title"><%- trackingNumber %></span>
       </div>
       <div id="detail-text">
-        <span class="label">Tracking Number</span> <span class="text"><%- trackingNumber %>
-        <span class="label">Carrier</span> <span class="text"><%- carrier %>
-        <span class="label">Notification Metod</span> <span class="text"><%- notificationMethod %>
+
+        
+        <p>
+          <span class="label">Tracking Number</span>
+          <span class="text"><%- trackingNumber %></span>
+        </p>
+        
+        
+        <p>
+          <span class="label">Carrier</span>
+          <span class="text">
+            <% if (typeof(carrier) !== 'undefined') { %>
+              <%- carrier %>
+            <% } else { %>
+              Deliveries R Us
+            <% } %>
+          </span>
+        </p>
+        
+        <p>
+          <span class="label">Notification Method</span>
+          <span class="text">
+            <% if (typeof(notificationMethod) !== 'undefined') { %>
+              <%- notificationMethod %>
+            <% } else { %>
+              carrier pigeon
+            <% } %>
+          </span>
+        </p>
+        
       </div>
     </div>
   </script>

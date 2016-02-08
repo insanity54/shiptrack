@@ -92,21 +92,20 @@ $(document).ready(function () {
     template: _.template($('#tracking-template').html()),
 
     deleteTracking: function() {
-      console.log('deleting tracking no');
-      this.model.destroy();
-      console.log(trackings);
+      //console.log('deleting tracking no');
+      this.model.destroy({wait: true});
+      //console.log(trackings);
     },
     
     // show complete detail of this tracking item
     showDetail: function() {
-      //console.log('tdisplay event))');
-      //console.log(appView);
-      //appView.trigger('showDetail', this.model);
+      appView.trigger("itemClick", this.model);
     },
     
     render: function () {
-      console.log('rendering tracking item');
-      console.log(this.model.attributes);
+      //console.log(this.collection);
+      //console.log('rendering tracking item');
+      //console.log(this.model.attributes);
       //this.$el.html(this.template(this.model.attributes));
       this.$el.html(this.template(this.model.attributes));
       //console.log(this.$el.html());
@@ -123,12 +122,8 @@ $(document).ready(function () {
   var AppView = Backbone.View.extend({
     el: '#app',
     
-    events: {
-      'itemClick': "showDetail"
-    },
-    
     initialize: function () {
-      console.log('appview init');
+      //console.log('appview init');
       this.listenTo(trackings, 'add', this.addTracking);
       //this.listenTo(trackings, 'click')
       trackings.fetch(); // @proc READ
@@ -136,11 +131,11 @@ $(document).ready(function () {
     
     
     addTracking: function (tracking) {
-      console.log('adding one');
+      //console.log('adding one');
       var view = new TrackingDisplay({
-        model: trackings.last()
+        model: tracking
       });
-      console.log(view.$el.html('tiesti'));
+      //console.log(view.$el.html('tiesti'));
       this.$("#trackingDisplay").append(view.render().el);
       // listen to the item in case it is clicked
       //this.listenTo(view, 'click', this.showDetail);
@@ -148,9 +143,10 @@ $(document).ready(function () {
     
     
     showDetail: function(tracking) {
-      console.log('showing tracking detail (appView)');
-      console.log(tracking);
+      //console.log('showing tracking detail (appView)');
+      //console.log(tracking);
       this.detail = new TrackingDetail({model: tracking});
+      this.detail.render();
     }
   });
 
@@ -161,12 +157,12 @@ $(document).ready(function () {
   // VIEW tracking detail
   //
   var TrackingDetail = Backbone.View.extend({
-    el: '#trackingDisplay',
+    el: '#trackingDetail',
     
     template: _.template($('#tracking-detail-template').html()),
     
     render: function () {
-      console.log('rendering tracking detail');
+      //console.log('rendering tracking detail');
       this.$el.html(this.template(this.model.attributes));
       return this;
     }
@@ -206,11 +202,12 @@ $(document).ready(function () {
     //    },
 
     submitAction: function (e) {
-      console.log('Inputview event: submit. Adding model to collection');
+      //console.log('Inputview event: submit. Adding model to collection');
       //console.log(this.collection)
       this.collection.create({
         trackingNumber: this.input.val()
       });
+      console.log(this.collection.toJSON());
       //var t = new Tracking({  });
       //this.collection.add(t);
       //this.sync("create", t, )
@@ -233,7 +230,12 @@ $(document).ready(function () {
   });
 
   var appView = new AppView(); // kick off app
-
+  // yummy hack(?) to get event from itemview to appview
+  _.extend(appView, Backbone.Events); 
+  appView.on('itemClick', function(tracking) {
+    //console.log("CKICK!L");
+    this.showDetail(tracking);
+  });
 
 
 
