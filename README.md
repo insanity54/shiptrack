@@ -1,4 +1,7 @@
 # shiptrack
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/insanity54/shiptrack.svg)](https://greenkeeper.io/)
+
 track your packages for the holiday
 
 
